@@ -21,12 +21,6 @@ is available in javascript as `java.util.Base64`.
 
 
 
-### Serialization
-
-Serialization is not supported, and all support classes and forms including magic methods such as `writeReplace` are removed.
-
-
-
 ## Getting the source
 
 You can either download the source using the "ZIP" button at the top
