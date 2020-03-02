@@ -103,7 +103,8 @@ public final class Base64 implements PublicStaticHelper {
      *         16 Q            33 h            50 y
      * </pre>
      */
-    private final static String RFC4648_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    // @VisibleForTesting
+    final static String RFC4648_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     private final static char[] RFC4648_ALPHABET_CHARS = RFC4648_ALPHABET.toCharArray();
 
     /**
