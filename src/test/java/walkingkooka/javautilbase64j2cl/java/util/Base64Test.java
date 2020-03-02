@@ -180,6 +180,14 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
                 Base64.getEncoder().withoutPadding(),
                 values);
 
+        this.encodeAndCheck(java.util.Base64.getUrlEncoder(),
+                Base64.getUrlEncoder(),
+                values);
+
+        this.encodeAndCheck(java.util.Base64.getUrlEncoder().withoutPadding(),
+                Base64.getUrlEncoder().withoutPadding(),
+                values);
+
         this.encodeAndCheck(java.util.Base64.getMimeEncoder(),
                 Base64.getMimeEncoder(),
                 values);
