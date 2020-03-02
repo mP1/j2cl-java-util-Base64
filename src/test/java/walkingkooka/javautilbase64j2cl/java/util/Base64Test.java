@@ -73,6 +73,25 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
     }
 
     @Test
+    public void testGetMimeEncoderInvalidLineSeparatorFails() {
+        final int lineWidth = 50;
+        final byte[] lineSeparator = new byte[]{'A'};
+        assertThrows(IllegalArgumentException.class, () -> java.util.Base64.getMimeEncoder(lineWidth, lineSeparator));
+        assertThrows(IllegalArgumentException.class, () -> Base64.getMimeEncoder(lineWidth, lineSeparator));
+    }
+
+    @Test
+    public void testGetMimeEncoderInvalidLineSeparatorFails2() {
+        final int lineWidth = 50;
+
+        for (final char c : Base64.RFC4648_ALPHABET.toCharArray()) {
+            final byte[] lineSeparator = new byte[]{(byte) c};
+            assertThrows(IllegalArgumentException.class, () -> java.util.Base64.getMimeEncoder(lineWidth, lineSeparator));
+            assertThrows(IllegalArgumentException.class, () -> Base64.getMimeEncoder(lineWidth, lineSeparator));
+        }
+    }
+
+    @Test
     public void testEncodeByteEmpty() {
         this.encodeAndCheck(0);
     }
