@@ -257,7 +257,17 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
 
     @Test
     public void testEncoderMimeToString() {
-        this.toStringAndCheck(Base64.getMimeEncoder(), "RFC2045 lineWidth=76 WITH PADDING");
+        this.toStringAndCheck(Base64.getMimeEncoder(), "RFC2045 WITH PADDING lineWidth=76");
+    }
+
+    @Test
+    public void testEncoderMimeLineWidthZeroToString() {
+        this.toStringAndCheck(Base64.getMimeEncoder(0, new byte[]{'\r'}), "RFC4648 WITH PADDING");
+    }
+
+    @Test
+    public void testEncoderMimeLineWidthNonZeroToString() {
+        this.toStringAndCheck(Base64.getMimeEncoder(50, new byte[]{'\r'}), "RFC2045 WITH PADDING lineWidth=48");
     }
 
     @Test
