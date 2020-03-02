@@ -283,6 +283,16 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
     }
 
     @Test
+    public void testEncoderUrlSafeToString() {
+        this.toStringAndCheck(Base64.getUrlEncoder(), "RFC4648 URLSAFE WITH PADDING");
+    }
+
+    @Test
+    public void testEncoderUrlSafeWithoutPaddingToString() {
+        this.toStringAndCheck(Base64.getUrlEncoder().withoutPadding(), "RFC4648 URLSAFE");
+    }
+
+    @Test
     public void testEncoderMimeToString() {
         this.toStringAndCheck(Base64.getMimeEncoder(), "RFC2045 WITH PADDING lineWidth=76");
     }
