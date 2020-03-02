@@ -282,7 +282,7 @@ public final class Base64 implements PublicStaticHelper {
                 if (-1 == max) {
                     toString = "RFC4648" + this.padding;
                 } else {
-                    toString = "RFC2045 lineWidth=" + max + this.padding;
+                    toString = "RFC2045" + this.padding + " lineWidth=" + max;
                 }
             } else {
                 toString = "RFC4648 URLSAFE" + this.padding;
