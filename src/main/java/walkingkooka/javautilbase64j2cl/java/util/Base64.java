@@ -24,6 +24,7 @@ import walkingkooka.reflect.PublicStaticHelper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -106,6 +107,7 @@ public final class Base64 implements PublicStaticHelper {
     // @VisibleForTesting
     final static String RFC4648_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     private final static char[] RFC4648_ALPHABET_CHARS = RFC4648_ALPHABET.toCharArray();
+    private final static int[] RFC4648_LOOKUP = makeDecoderLookup(RFC4648_ALPHABET_CHARS);
 
     /**
      * <pre>
@@ -132,6 +134,24 @@ public final class Base64 implements PublicStaticHelper {
      * </pre>
      */
     private final static char[] RFC4648_URLSAFE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".toCharArray();
+    private final static int[] RFC4648_URLSAFE_LOOKUP = makeDecoderLookup(RFC4648_URLSAFE_ALPHABET);
+
+    /**
+     * Produces a lookup table using an alphabet character as the index.
+     */
+    private static int[] makeDecoderLookup(final char[] alphabet) {
+        final int[] lookup = new int[256];
+        Arrays.fill(lookup, -1);
+
+        int value = 0;
+
+        for (final char c : alphabet) {
+            lookup[c] = value;
+            value++;
+        }
+
+        return lookup;
+    }
 
     private static final int MIMELINEMAX = 76;
     private static final byte[] CRLF = new byte[]{'\r', '\n'};
@@ -295,29 +315,141 @@ public final class Base64 implements PublicStaticHelper {
 
     public static class Decoder {
 
-        final static Decoder RFC4648 = new Decoder(RFC4648_ALPHABET_CHARS);
-        final static Decoder RFC4648_URLSAFE = new Decoder(RFC4648_URLSAFE_ALPHABET);
-        final static Decoder RFC2045 = new Decoder(RFC4648_ALPHABET_CHARS);
+        final static Decoder RFC4648 = new Decoder(RFC4648_LOOKUP);
+        final static Decoder RFC4648_URLSAFE = new Decoder(RFC4648_URLSAFE_LOOKUP);
+        final static Decoder RFC2045 = new Decoder(RFC4648_LOOKUP);
 
-        private Decoder(final char[] alphabet) {
+        private Decoder(final int[] lookup) {
             super();
-            this.alphabet = alphabet;
+            this.lookup = lookup;
         }
 
-        public byte[] decode(final byte[] src) {
-            throw new UnsupportedOperationException();
+        /**
+         * <pre>
+         * 9.  Illustrations and Examples
+         *
+         *    To translate between binary and a base encoding, the input is stored
+         *    in a structure, and the output is extracted.  The case for base 64 is
+         *    displayed in the following figure, borrowed from [5].
+         *
+         *             +--first octet--+-second octet--+--third octet--+
+         *             |7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|7 6 5 4 3 2 1 0|
+         *             +-----------+---+-------+-------+---+-----------+
+         *             |5 4 3 2 1 0|5 4 3 2 1 0|5 4 3 2 1 0|5 4 3 2 1 0|
+         *             +--1.index--+--2.index--+--3.index--+--4.index--+
+         * </pre>
+         */
+        public byte[] decode(final byte[] from) {
+            Objects.requireNonNull(from, "from");
+
+            try (final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+
+                final int fromLength = from.length;
+                final int[] lookup = this.lookup;
+                final boolean mime = this.isMime();
+
+                int mode = MODE_OCTET_0;
+                int previous = 0;
+
+                for (int i = 0; i < fromLength; i++) {
+                    final byte c = from[i];
+                    if (PAD == c) {
+                        mode = 4;
+                        continue;
+                    }
+
+
+                    final int value = lookup[c];
+                    if (-1 == value) {
+                        if (mime) {
+                            continue;
+                        }
+                        throw new IllegalArgumentException("Invalid encoding got 0x" + Integer.toHexString(c) + " at " + i);
+                    }
+
+                    // read 4 bytes encoded gives 3 decoded
+                    switch (mode) {
+                        case MODE_OCTET_0:
+                            previous = value << 2;
+                            mode = MODE_OCTET_1;
+                            break;
+                        case MODE_OCTET_1:
+                            bytes.write(previous | value >> 4);
+                            previous = (value & 0xf) << 4;
+                            mode = MODE_OCTET_2;
+                            break;
+                        case MODE_OCTET_2:
+                            bytes.write(previous | value >> 2);
+                            previous = (value & 0x3) << 6;
+                            mode = MODE_OCTET_3;
+                            break;
+                        case MODE_OCTET_3:
+                            bytes.write(previous | value);
+                            previous = 0;
+                            mode = MODE_OCTET_0;
+                            break;
+                        case MODE_PAD:
+                            if (c == PAD) {
+                                throw new IllegalArgumentException("Expected pad but got 0x" + Integer.toHexString(c) + " at " + i);
+                            }
+                            break;
+                        default:
+                            NeverError.unhandledCase(mode, MODE_OCTET_0, MODE_OCTET_1, MODE_OCTET_2, MODE_OCTET_3, MODE_PAD);
+                            break;
+                    }
+                }
+
+                switch (mode) {
+                    case MODE_OCTET_0:
+                    case MODE_OCTET_2:
+                    case MODE_OCTET_3:
+                    case MODE_PAD:
+                        break;
+                    case MODE_OCTET_1:
+                        throw new IllegalArgumentException("Invalid encoding " + mode);
+                    default:
+                        NeverError.unhandledCase(mode, MODE_OCTET_0, MODE_OCTET_1, MODE_OCTET_2, MODE_OCTET_3, MODE_PAD);
+                        break;
+                }
+
+                if (MODE_OCTET_1 == mode) {
+
+                }
+
+                bytes.flush();
+                return bytes.toByteArray();
+            } catch (final IOException cause) {
+                throw new Error(cause.getMessage(), cause); // shouldnt happen.
+            }
+        }
+
+        private final static int MODE_OCTET_0 = 0;
+        private final static int MODE_OCTET_1 = MODE_OCTET_0 + 1;
+        private final static int MODE_OCTET_2 = MODE_OCTET_1 + 1;
+        private final static int MODE_OCTET_3 = MODE_OCTET_2 + 1;
+        private final static int MODE_PAD = MODE_OCTET_3 + 1;
+
+        private boolean isMime() {
+            return this == RFC2045;
         }
 
         public byte[] decode(final String encoded) {
             return decode(encoded.getBytes(StandardCharsets.ISO_8859_1));
         }
 
-        public int decode(final byte[] src,
-                          final byte[] dst) {
-            throw new UnsupportedOperationException();
+        public int decode(final byte[] from,
+                          final byte[] to) {
+            final byte[] decoded = this.decode(from);
+            final int length = decoded.length;
+
+            if (to.length < length) {
+                throw new IllegalArgumentException("To " + to.length + " < required " + length);
+            }
+            System.arraycopy(decoded, 0, to, 0, length);
+            return length;
         }
 
-        private final char[] alphabet;
+        private final int[] lookup;
     }
 
     /**

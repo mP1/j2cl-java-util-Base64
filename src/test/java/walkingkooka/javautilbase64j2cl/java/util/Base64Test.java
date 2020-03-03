@@ -242,6 +242,258 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
 
     // decode...........................................................................................................
 
+    @Test
+    public void testDecodeInvalidFails() {
+        final byte[] values = new byte[]{'A', 0};
+        assertThrows(IllegalArgumentException.class, () -> java.util.Base64.getDecoder().decode(values));
+        assertThrows(IllegalArgumentException.class, () -> Base64.getDecoder().decode(values));
+    }
+
+    @Test
+    public void testDecodeInvalidSequenceFails() {
+        final byte[] values = new byte[]{'A'};
+        assertThrows(IllegalArgumentException.class, () -> java.util.Base64.getDecoder().decode(values));
+        assertThrows(IllegalArgumentException.class, () -> Base64.getDecoder().decode(values));
+    }
+
+    @Test
+    public void testDecodeByteArrayByteArrayFails() {
+        final byte[] from = new byte[]{'A', 'B'};
+        final byte[] to = new byte[0];
+        assertThrows(IllegalArgumentException.class, () -> java.util.Base64.getDecoder().decode(from, to));
+        assertThrows(IllegalArgumentException.class, () -> Base64.getDecoder().decode(from, to));
+    }
+
+    @Test
+    public void testDecodeEmpty() {
+        this.decodeAndCheck(0);
+    }
+
+    @Test
+    public void testDecodeOneByte() {
+        this.decodeAndCheck(new byte[]{0});
+    }
+
+    @Test
+    public void testDecodeOneByte2() {
+        this.decodeAndCheck(new byte[]{-1});
+    }
+
+    @Test
+    public void testDecodeOneByteAll() {
+        this.decodeAndCheck(1);
+    }
+
+    @Test
+    public void testDecodeTwoBytes() {
+        this.decodeAndCheck(new byte[]{1, 2});
+    }
+
+    @Test
+    public void testDecodeTwoBytesAll() {
+        this.decodeAndCheck(2);
+    }
+
+    @Test
+    public void testDecodeThreeBytes() {
+        this.decodeAndCheck(3);
+    }
+
+    @Test
+    public void testDecodeThreeBytesAll() {
+        this.decodeAndCheck(3);
+    }
+
+    @Test
+    public void testDecodeFourBytesAll() {
+        this.decodeAndCheck(4);
+    }
+
+    @Test
+    public void testDecode255BytesAll() {
+        this.decodeAndCheck(255);
+    }
+
+    private void decodeAndCheck(final byte[] values) {
+        this.decodeAndCheck(java.util.Base64.getEncoder(),
+                java.util.Base64.getDecoder(),
+                Base64.getDecoder(),
+                values);
+    }
+
+    private void decodeAndCheck(final int length) {
+        for (int value = Byte.MIN_VALUE; value <= Byte.MAX_VALUE; value++) {
+            final byte[] values = new byte[length];
+            Arrays.fill(values, (byte) value);
+
+            this.decodeAndCheck(java.util.Base64.getEncoder(),
+                    java.util.Base64.getDecoder(),
+                    Base64.getDecoder(),
+                    values);
+
+            for (int i = 0; i < length; i++) {
+                values[i] = (byte) i;
+            }
+
+            this.decodeAndCheck(java.util.Base64.getEncoder(),
+                    java.util.Base64.getDecoder(),
+                    Base64.getDecoder(),
+                    values);
+        }
+    }
+
+    @Test
+    public void testDecodeUrlEmpty() {
+        this.decodeUrlAndCheck(0);
+    }
+
+    @Test
+    public void testDecodeUrlOneByte() {
+        this.decodeUrlAndCheck(new byte[]{0});
+    }
+
+    @Test
+    public void testDecodeUrlOneByte2() {
+        this.decodeUrlAndCheck(new byte[]{-1});
+    }
+
+    @Test
+    public void testDecodeUrlOneByteAll() {
+        this.decodeUrlAndCheck(1);
+    }
+
+    @Test
+    public void testDecodeUrlTwoBytes() {
+        this.decodeUrlAndCheck(new byte[]{1, 2});
+    }
+
+    @Test
+    public void testDecodeUrlTwoBytesAll() {
+        this.decodeUrlAndCheck(2);
+    }
+
+    @Test
+    public void testDecodeUrlThreeBytes() {
+        this.decodeUrlAndCheck(3);
+    }
+
+    @Test
+    public void testDecodeUrlThreeBytesAll() {
+        this.decodeUrlAndCheck(3);
+    }
+
+    @Test
+    public void testDecodeUrlFourBytesAll() {
+        this.decodeUrlAndCheck(4);
+    }
+
+    @Test
+    public void testDecodeUrl255BytesAll() {
+        this.decodeUrlAndCheck(255);
+    }
+
+    private void decodeUrlAndCheck(final byte[] values) {
+        this.decodeAndCheck(java.util.Base64.getUrlEncoder(),
+                java.util.Base64.getUrlDecoder(),
+                Base64.getUrlDecoder(),
+                values);
+    }
+
+    private void decodeUrlAndCheck(final int length) {
+        for (int value = Byte.MIN_VALUE; value <= Byte.MAX_VALUE; value++) {
+            final byte[] values = new byte[length];
+            Arrays.fill(values, (byte) value);
+
+            this.decodeUrlAndCheck(values);
+
+            for (int i = 0; i < length; i++) {
+                values[i] = (byte) i;
+            }
+
+            this.decodeUrlAndCheck(values);
+        }
+    }
+
+    @Test
+    public void testDecodeMimeEmpty() {
+        this.decodeMimeAndCheck(0);
+    }
+
+    @Test
+    public void testDecodeMimeOneByte() {
+        this.decodeMimeAndCheck(new byte[]{0});
+    }
+
+    @Test
+    public void testDecodeMimeOneByte2() {
+        this.decodeMimeAndCheck(new byte[]{-1});
+    }
+
+    @Test
+    public void testDecodeMimeOneByteAll() {
+        this.decodeMimeAndCheck(1);
+    }
+
+    @Test
+    public void testDecodeMimeTwoBytes() {
+        this.decodeMimeAndCheck(new byte[]{1, 2});
+    }
+
+    @Test
+    public void testDecodeMimeTwoBytesAll() {
+        this.decodeMimeAndCheck(2);
+    }
+
+    @Test
+    public void testDecodeMimeThreeBytes() {
+        this.decodeMimeAndCheck(3);
+    }
+
+    @Test
+    public void testDecodeMimeThreeBytesAll() {
+        this.decodeMimeAndCheck(3);
+    }
+
+    @Test
+    public void testDecodeMimeFourBytesAll() {
+        this.decodeMimeAndCheck(4);
+    }
+
+    @Test
+    public void testDecodeMime255BytesAll() {
+        this.decodeMimeAndCheck(255);
+    }
+
+    private void decodeMimeAndCheck(final int length) {
+        for (int value = Byte.MIN_VALUE; value <= Byte.MAX_VALUE; value++) {
+            final byte[] values = new byte[length];
+            Arrays.fill(values, (byte) value);
+
+            this.decodeMimeAndCheck(values);
+
+            for (int i = 0; i < length; i++) {
+                values[i] = (byte) i;
+            }
+
+            this.decodeMimeAndCheck(values);
+        }
+    }
+
+    private void decodeMimeAndCheck(final byte[] values) {
+        this.decodeAndCheck(java.util.Base64.getMimeEncoder(),
+                java.util.Base64.getMimeDecoder(),
+                Base64.getMimeDecoder(),
+                values);
+    }
+
+    private void decodeAndCheck(final java.util.Base64.Encoder encoder,
+                                final java.util.Base64.Decoder jdk,
+                                final Base64.Decoder emul,
+                                final byte[] values) {
+        this.decodeAndCheck(jdk, emul, encoder.encode(values));
+        this.decodeAndCheck(jdk, emul, encoder.withoutPadding().encode(values));
+    }
+
     private void decodeAndCheck(final java.util.Base64.Decoder jdk,
                                 final Base64.Decoder emul,
                                 final byte[] values) {
@@ -261,9 +513,9 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
 
 
         final String string = new String(values);
-        assertEquals(jdk.decode(string),
+        assertArrayEquals(jdk.decode(string),
                 emul.decode(string),
-                () -> "decode " + CharSequences.quoteAndEscape(string));
+                () -> emul + " decode(String) " + CharSequences.quoteAndEscape(string));
     }
 
     // toString.........................................................................................................
