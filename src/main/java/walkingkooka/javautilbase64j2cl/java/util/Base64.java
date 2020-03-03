@@ -63,9 +63,9 @@ public final class Base64 implements PublicStaticHelper {
             at++;
         }
         return new Base64.Encoder(RFC4648_ALPHABET_CHARS,
-                        lineLength / 4 * 4,
-                        lineSeparator,
-                        Base64EncoderPadding.WITH);
+                lineLength / 4 * 4,
+                lineSeparator,
+                Base64EncoderPadding.WITH);
     }
 
     public static Decoder getDecoder() {
