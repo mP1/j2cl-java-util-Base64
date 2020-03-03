@@ -564,6 +564,21 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
         this.toStringAndCheck(Base64.getMimeEncoder().withoutPadding(), "RFC2045 lineWidth=76");
     }
 
+    @Test
+    public void testDecoderToString() {
+        this.toStringAndCheck(Base64.getDecoder(), "RFC4648");
+    }
+
+    @Test
+    public void testDecoderUrlToString() {
+        this.toStringAndCheck(Base64.getUrlDecoder(), "RFC4648 URLSAFE");
+    }
+
+    @Test
+    public void testDecoderMimeToString() {
+        this.toStringAndCheck(Base64.getMimeDecoder(), "RFC2045");
+    }
+
     // PublicStaticHelper...............................................................................................
 
     @Override
