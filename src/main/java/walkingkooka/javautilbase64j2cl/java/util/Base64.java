@@ -315,13 +315,15 @@ public final class Base64 implements PublicStaticHelper {
 
     public static class Decoder {
 
-        final static Decoder RFC4648 = new Decoder(RFC4648_LOOKUP);
-        final static Decoder RFC4648_URLSAFE = new Decoder(RFC4648_URLSAFE_LOOKUP);
-        final static Decoder RFC2045 = new Decoder(RFC4648_LOOKUP);
+        final static Decoder RFC4648 = new Decoder(RFC4648_LOOKUP, "RFC4648");
+        final static Decoder RFC4648_URLSAFE = new Decoder(RFC4648_URLSAFE_LOOKUP, "RFC4648 URLSAFE");
+        final static Decoder RFC2045 = new Decoder(RFC4648_LOOKUP, "RFC2045");
 
-        private Decoder(final int[] lookup) {
+        private Decoder(final int[] lookup,
+                        final String toString) {
             super();
             this.lookup = lookup;
+            this.toString = toString;
         }
 
         /**
@@ -450,6 +452,13 @@ public final class Base64 implements PublicStaticHelper {
         }
 
         private final int[] lookup;
+
+        @Override
+        public String toString() {
+            return this.toString;
+        }
+
+        private final String toString;
     }
 
     /**
