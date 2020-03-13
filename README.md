@@ -14,13 +14,13 @@ This project aims to provide a mostly complete `java.util.Base64` implementation
 
 ### Missing functionality
 
-Some methods from both `Decoder` and `Encoder` may not be implemented, such as the public methods with signatures including `ByteBuffer`, `InputStream` and `OutputStream`.
+Some methods from both `Decoder` and `Encoder` may not be implemented, such as the public methods with signaturesincluding `ByteBuffer`, `InputStream` and `OutputStream`.
 
 
 
 ### Transpiling
 
-The `j2cl-maven-plugin` will repackage the source during the transpile phase, so `walkingkooka.javautilbase64j2cl.java.util.Base64`
+The `j2cl-maven-plugin` will shade the source during the transpile phase, so `walkingkooka.javautilbase64j2cl.java.util.Base64`
 is available in javascript as `java.util.Base64`. 
 
 
