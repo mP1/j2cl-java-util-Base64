@@ -285,7 +285,7 @@ public final class Base64 implements PublicStaticHelper {
         @SuppressWarnings("deprecation")
         public String encodeToString(final byte[] src) {
             final byte[] encoded = this.encode(src);
-            return new String(encoded, 0, 0, encoded.length);
+            return new String(encoded);
         }
 
         public Encoder withoutPadding() {
