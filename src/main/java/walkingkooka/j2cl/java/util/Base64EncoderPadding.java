@@ -15,7 +15,7 @@
  *
  */
 
-package walkingkooka.javautilbase64j2cl.java.util;
+package walkingkooka.j2cl.java.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

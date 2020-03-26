@@ -7,17 +7,17 @@
     <!-- ==================================================================== -->
     <modelVersion>4.0.0</modelVersion>
     <groupId>walkingkooka</groupId>
-    <artifactId>java-util-Base64-j2cl</artifactId>
+    <artifactId>j2cl-java-util-Base64</artifactId>
     <packaging>jar</packaging>
     <name>java.util.Base64 j2cl compatible</name>
     <version>1.0-SNAPSHOT</version>
     <description>An j2cl compatible apache 2 implementation of java.util.Base64</description>
-    <url>https://github.com/mP1/java-util-Base64-j2cl</url>
+    <url>https://github.com/mP1/j2cl-java-util-Base64</url>
 
     <!-- ==================================================================== -->
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/mP1/java-util-Base64-j2cl/issues</url>
+        <url>https://github.com/mP1/j2cl-java-util-Base64/issues</url>
     </issueManagement>
     <inceptionYear>2020</inceptionYear>
 
@@ -43,9 +43,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:https://github.com/mP1/java-util-Base64-j2cl.git</connection>
-        <developerConnection>scm:git:https://github.com/mP1/java-util-Base64-j2cl.git</developerConnection>
-        <url>https://github.com/mP1/java-util-Base64-j2cl</url>
+        <connection>scm:git:https://github.com/mP1/j2cl-java-util-Base64.git</connection>
+        <developerConnection>scm:git:https://github.com/mP1/j2cl-java-util-Base64.git</developerConnection>
+        <url>https://github.com/mP1/j2cl-java-util-Base64</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -309,7 +309,7 @@
                             </replaced-dependencies>
                             <skip-tests>false</skip-tests>
                             <tests>
-                                <test>walkingkooka.javautilbase64j2cl.JavaUtilBase64TestJ2cl</test>
+                                <test>walkingkooka.j2cl.JavaUtilBase64TestJ2cl</test>
                             </tests>
                             <test-timeout>20</test-timeout>
                         </configuration>
