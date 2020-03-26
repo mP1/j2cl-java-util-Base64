@@ -15,7 +15,7 @@
  *
  */
 
-package walkingkooka.javautilbase64j2cl;
+package walkingkooka.j2cl;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.junit.Test;

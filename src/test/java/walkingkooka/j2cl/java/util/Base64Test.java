@@ -15,11 +15,11 @@
  *
  */
 
-package walkingkooka.javautilbase64j2cl.java.util;
+package walkingkooka.j2cl.java.util;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
-import walkingkooka.javautilbase64j2cl.java.util.Base64.Encoder;
+import walkingkooka.j2cl.java.util.Base64.Encoder;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicStaticHelperTesting;
 import walkingkooka.text.CharSequences;
