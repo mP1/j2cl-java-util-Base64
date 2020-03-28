@@ -271,9 +271,6 @@
                                 <param>org.junit.jupiter:junit-jupiter-api:5.4.0</param>
                                 <param>org.junit.jupiter:junit-jupiter-engine:5.4.0</param>
                             </classpath-required>
-                            <excluded-dependencies>
-                                <!--<param>group1:artifact2:version3</param>-->
-                            </excluded-dependencies>
                             <javascript-source-required>
                                 <param>com.vertispan.j2cl:bootstrap:zip:jszip:${j2cl.version}</param>
                                 <param>com.vertispan.j2cl:jre:zip:jszip:${j2cl.version}</param>
