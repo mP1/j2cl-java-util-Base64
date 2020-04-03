@@ -254,15 +254,7 @@
                                 </param>
                             </added-dependencies>
                             <classpath-required>
-                                <param>com.vertispan.j2cl:javac-bootstrap-classpath:${j2cl.version}</param>
-                                <param>com.vertispan.j2cl:jre:${j2cl.version}</param>
-                                <param>com.google.jsinterop:jsinterop-annotations:jar:2.0.0</param>
-                                <param>com.vertispan.jsinterop:base:1.0.0-SNAPSHOT</param>
-                                <param>com.vertispan.j2cl:gwt-internal-annotations:jar:${j2cl.version}</param>
-
                                 <!-- j2cl junit -->
-                                <param>com.vertispan.j2cl:junit-annotations:${j2cl.version}</param>
-                                <param>com.vertispan.j2cl:junit-processor:${j2cl.version}</param>
                                 <param>com.vertispan.j2cl:junit-emul:${j2cl.version}</param>
 
                                 <!-- jre junit -->
@@ -272,21 +264,9 @@
                                 <param>org.junit.jupiter:junit-jupiter-engine:5.4.0</param>
                             </classpath-required>
                             <ignored>
-                                <!-- jre & bootstrap transpiled versions also included as dependencies, skip transpiling-->
-                                <param>com.vertispan.j2cl:javac-bootstrap-classpath:${j2cl.version}</param>
-                                <param>com.vertispan.j2cl:jre:${j2cl.version}</param>
-                                <param>com.vertispan.j2cl:bootstrap:zip:jszip:${j2cl.version}</param>
-                                <param>com.vertispan.j2cl:jre:zip:jszip:${j2cl.version}</param>
-
-                                <!-- dependencies below only contain annotations/annotation processor -->
-                                <param>com.google.jsinterop:jsinterop-annotations:jar:2.0.0</param>
-                                <param>com.vertispan.j2cl:gwt-internal-annotations:jar:${j2cl.version}</param>
-
                                 <!-- j2cl junit -->
                                 <param>com.vertispan.j2cl:closure-test:zip:jszip:${j2cl.version}</param>
-                                <param>com.vertispan.j2cl:junit-annotations:${j2cl.version}</param>
                                 <param>com.vertispan.j2cl:junit-emul:${j2cl.version}</param>
-                                <param>com.vertispan.j2cl:junit-processor:${j2cl.version}</param>
 
                                 <!-- jre junit -->
                                 <param>org.junit.platform:junit-platform-commons:1.4.0</param>
@@ -294,14 +274,10 @@
                                 <param>org.junit.jupiter:junit-jupiter-api:5.4.0</param>
                                 <param>org.junit.jupiter:junit-jupiter-engine:5.4.0</param>
                             </ignored>
-                            <javascript-source-required>
-                                <param>com.vertispan.j2cl:bootstrap:zip:jszip:${j2cl.version}</param>
-                                <param>com.vertispan.j2cl:jre:zip:jszip:${j2cl.version}</param>
-                                <param>com.vertispan.jsinterop:base:1.0.0-SNAPSHOT</param>
-                                <param>com.vertispan.j2cl:closure-test:zip:jszip:${j2cl.version}</param>
-                            </javascript-source-required>
+                            <javascript-source-required/>
                             <replaced-dependencies>
                                 <param>com.google.jsinterop:base:1.0.0-RC1=com.vertispan.jsinterop:base:1.0.0-SNAPSHOT</param>
+                                <param>com.google.jsinterop:jsinterop-annotations:*=com.google.jsinterop:jsinterop-annotations:2.0.0</param>
                                 <param>com.vertispan.j2cl:gwt-internal-annotations:0.4-SNAPSHOT=com.vertispan.j2cl:gwt-internal-annotations:${j2cl.version}</param>
                             </replaced-dependencies>
                             <skip-tests>false</skip-tests>
