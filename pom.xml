@@ -297,6 +297,7 @@
 
                             <classpath-required/>
                             <ignored-dependencies>
+                                <param>org.apiguardian:apiguardian-api:*</param>
                                 <param>org.junit.platform:junit-platform-commons:*</param>
                                 <param>org.junit.platform:junit-platform-engine:*</param>
                                 <param>org.junit.jupiter:junit-jupiter-api:*</param>
