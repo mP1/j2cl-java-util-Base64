@@ -12,9 +12,15 @@ This project aims to provide a mostly complete `java.util.Base64` implementation
 
 
 
-### Missing functionality
+`java.util.Base64.Decoder`
+- wrap(InputStream is) missing
+- decode(ByteBuffer) missing
 
-Some methods from both `Decoder` and `Encoder` may not be implemented, such as the public methods with signaturesincluding `ByteBuffer`, `InputStream` and `OutputStream`.
+
+
+`java.util.Base64.Encoder`
+- wrap(OutputStream) missing
+- encode(ByteBuffer) missing
 
 
 
