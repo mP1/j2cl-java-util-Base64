@@ -185,7 +185,7 @@
                 <configuration>
                     <source>9</source>
                     <target>9</target>
-                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
             <plugin>
@@ -199,15 +199,19 @@
                         <version>1.1.0</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <trimStackTrace>false</trimStackTrace>
+                    <useFile>false</useFile>
+                </configuration>
             </plugin>
-
-            <!-- Setup source jar -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <configuration>
-                    <excludeResources>true</excludeResources>
-                </configuration>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -217,6 +221,28 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>install</goal>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <cloneProjectsTo>${project.build.directory}/it-tests</cloneProjectsTo>
+                    <debug>true</debug>
+                    <invokerPropertiesFile>${project.build.directory}/it-repo/invoker.properties</invokerPropertiesFile>
+                    <localRepositoryPath>${project.build.directory}/it-repo</localRepositoryPath>
+                    <settingsFile>src/it/settings.xml</settingsFile>
+                    <streamLogs>false</streamLogs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -262,58 +288,6 @@
                         <scope>compile</scope>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>walkingkooka</groupId>
-                <artifactId>j2cl-maven-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <id>walkingkooka-javaioj2cl-JavaIoTestJ2cl</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <browsers>
-                                <param>CHROME</param>
-                                <param>HTML_UNIT</param>
-                            </browsers>
-                            <classpath-scope>test</classpath-scope>
-                            <compilation-level>ADVANCED</compilation-level>
-                            <defines>
-                                <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
-                                <gwt.enableDebugId>true</gwt.enableDebugId>
-                                <gwt.strictCspTestingEnabled>true</gwt.strictCspTestingEnabled>
-                                <jre.checkedMode>DISABLED</jre.checkedMode>
-                                <jre.checks.checkLevel>MINIMAL</jre.checks.checkLevel>
-                                <jsinterop.checks>DISABLED</jsinterop.checks>
-                            </defines>
-                            <externs/>
-                            <formatting/>
-                            <java-compiler-arguments/>
-                            <language-out>ECMASCRIPT5</language-out>
-                            <thread-pool-size>0</thread-pool-size>
-
-                            <classpath-required/>
-                            <ignored-dependencies>
-                                <param>org.apiguardian:apiguardian-api:*</param>
-                                <param>org.junit.platform:junit-platform-commons:*</param>
-                                <param>org.junit.platform:junit-platform-engine:*</param>
-                                <param>org.junit.jupiter:junit-jupiter-api:*</param>
-                                <param>org.junit.jupiter:junit-jupiter-engine:*</param>
-                                <param>walkingkooka:j2cl-junit-java:*</param>
-                            </ignored-dependencies>
-                            <javascript-source-required/>
-
-                            <skip-tests>false</skip-tests>
-                            <tests>
-                                <test>walkingkooka.j2cl.JavaUtilBase64TestJ2cl</test>
-                            </tests>
-                            <test-timeout>20</test-timeout>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <!-- Manage plugin versions -->
