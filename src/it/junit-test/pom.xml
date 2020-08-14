@@ -119,7 +119,7 @@
             <plugin>
                 <groupId>walkingkooka</groupId>
                 <artifactId>j2cl-maven-plugin</artifactId>
-                <version>99.0-SNAPSHOT</version>
+                <version>1.0-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>j2cl-java-util-Base64-it-junit-test</id>
