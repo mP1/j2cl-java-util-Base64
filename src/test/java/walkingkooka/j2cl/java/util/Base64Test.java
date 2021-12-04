@@ -28,7 +28,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -235,9 +234,11 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
 
         }
 
-        assertEquals(jdk.encodeToString(values),
+        this.checkEquals(
+                jdk.encodeToString(values),
                 emul.encodeToString(values),
-                () -> emul + " encodeToString " + Arrays.toString(values));
+                () -> emul + " encodeToString " + Arrays.toString(values)
+        );
     }
 
     // decode...........................................................................................................
