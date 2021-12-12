@@ -356,7 +356,7 @@ public final class Base64 implements PublicStaticHelper {
                 for (int i = 0; i < fromLength; i++) {
                     final byte c = from[i];
                     if (PAD == c) {
-                        mode = 4;
+                        mode = MODE_PAD;
                         continue;
                     }
 
