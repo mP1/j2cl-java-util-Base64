@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToStringTesting {
+public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToStringTesting<Base64> {
 
     @Test
     public void testWithoutPaddingWithoutPadding() {
