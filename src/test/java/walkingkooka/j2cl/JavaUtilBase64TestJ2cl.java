@@ -22,6 +22,7 @@ import org.junit.Test;
 import walkingkooka.text.CharSequences;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -60,6 +61,6 @@ public class JavaUtilBase64TestJ2cl {
     }
 
     private static Charset utf8() {
-        return Charset.forName("UTF-8");
+        return StandardCharsets.UTF_8;
     }
 }
