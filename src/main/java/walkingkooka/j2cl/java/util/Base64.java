@@ -391,7 +391,7 @@ public final class Base64 implements PublicStaticHelper {
                             mode = MODE_OCTET_0;
                             break;
                         case MODE_PAD:
-                            if (c == PAD) {
+                            if (c != PAD) {
                                 throw new IllegalArgumentException("Expected pad but got 0x" + Integer.toHexString(c) + " at " + i);
                             }
                             break;
