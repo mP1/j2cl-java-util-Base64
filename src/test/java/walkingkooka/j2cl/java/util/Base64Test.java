@@ -19,12 +19,14 @@ package walkingkooka.j2cl.java.util;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
+import walkingkooka.j2cl.java.util.Base64.Decoder;
 import walkingkooka.j2cl.java.util.Base64.Encoder;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicStaticHelperTesting;
 import walkingkooka.text.CharSequences;
 
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -263,6 +265,25 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
         final byte[] to = new byte[0];
         assertThrows(IllegalArgumentException.class, () -> java.util.Base64.getDecoder().decode(from, to));
         assertThrows(IllegalArgumentException.class, () -> Base64.getDecoder().decode(from, to));
+    }
+
+    @Test
+    public void testDecodeInvalidPadFails() {
+        final String raw = "abcd";
+        final String encodedWithBadPad = Base64.getEncoder()
+                .encodeToString(raw.getBytes())
+                + "//";
+        final IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    Base64.getDecoder().decode(encodedWithBadPad);
+                }
+        );
+        this.checkEquals(
+                "Expected pad but got 0x2f at 8",
+                thrown.getMessage(),
+                () -> "decode " + CharSequences.quoteIfChars(encodedWithBadPad)
+        );
     }
 
     @Test
@@ -517,6 +538,50 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
         assertArrayEquals(jdk.decode(string),
                 emul.decode(string),
                 () -> emul + " decode(String) " + CharSequences.quoteAndEscape(string));
+    }
+
+    @Test
+    public void testRfc2045_EncodeAndDecodeRoundtrip() {
+        this.encodeAndDecodeRoundtrip(
+                Encoder.RFC2045,
+                Decoder.RFC2045
+        );
+    }
+
+    @Test
+    public void testRfc4648_EncodeAndDecodeRoundtrip() {
+        this.encodeAndDecodeRoundtrip(
+                Encoder.RFC4648,
+                Decoder.RFC4648
+        );
+    }
+
+    @Test
+    public void testRfc4648UrlSafe_EncodeAndDecodeRoundtrip() {
+        this.encodeAndDecodeRoundtrip(
+                Encoder.RFC4648_URLSAFE,
+                Decoder.RFC4648_URLSAFE
+        );
+    }
+
+    private void encodeAndDecodeRoundtrip(final Encoder encoder,
+                                          final Decoder decoder) {
+        final Charset charset = Charset.defaultCharset();
+
+        for (int i = 0; i < 100; i++) {
+            final StringBuilder b = new StringBuilder();
+            for (int j = 0; j < i; j++) {
+                final int c = 'A' + j;
+                b.append((char) c);
+            }
+            final String string = b.toString();
+            final String encoded = encoder.encodeToString(string.getBytes(charset));
+            this.checkEquals(
+                    string,
+                    new String(decoder.decode(encoded), charset),
+                    () -> "encode and decode roundtrip " + CharSequences.quoteIfChars(string)
+            );
+        }
     }
 
     // toString.........................................................................................................
