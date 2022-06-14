@@ -280,7 +280,7 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
                 }
         );
         this.checkEquals(
-                "Expected pad but got 0x2f at 8",
+                "Expected pad but got '/' at 8",
                 thrown.getMessage(),
                 () -> "decode " + CharSequences.quoteIfChars(encodedWithBadPad)
         );

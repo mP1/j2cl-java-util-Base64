@@ -20,6 +20,7 @@ package walkingkooka.j2cl.java.util;
 
 import walkingkooka.NeverError;
 import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.text.CharSequences;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -391,10 +392,7 @@ public final class Base64 implements PublicStaticHelper {
                             mode = MODE_OCTET_0;
                             break;
                         case MODE_PAD:
-                            if (c != PAD) {
-                                throw new IllegalArgumentException("Expected pad but got 0x" + Integer.toHexString(c) + " at " + i);
-                            }
-                            break;
+                            throw new IllegalArgumentException("Expected pad but got " + CharSequences.quoteIfChars((char) c) + " at " + i);
                         default:
                             NeverError.unhandledCase(mode, MODE_OCTET_0, MODE_OCTET_1, MODE_OCTET_2, MODE_OCTET_3, MODE_PAD);
                             break;
