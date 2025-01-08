@@ -34,8 +34,8 @@ public final class JunitTest {
 
         final String encoded = Base64.getEncoder().encodeToString(data.getBytes(charset));
         Assert.assertEquals("Started with " + CharSequences.quoteAndEscape(data) + " encoded: " + CharSequences.quoteAndEscape(encoded),
-                data,
-                new String(Base64.getDecoder().decode(encoded), charset)
+            data,
+            new String(Base64.getDecoder().decode(encoded), charset)
         );
     }
 }

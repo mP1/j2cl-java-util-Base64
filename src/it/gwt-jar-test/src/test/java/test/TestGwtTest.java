@@ -17,6 +17,7 @@
 package test;
 
 import com.google.gwt.junit.client.GWTTestCase;
+
 import java.util.Base64;
 
 public class TestGwtTest extends GWTTestCase {
@@ -27,24 +28,24 @@ public class TestGwtTest extends GWTTestCase {
 
     public void testAssertEquals() {
         assertEquals(
-                1,
-                1
+            1,
+            1
         );
     }
 
     public void testTextResource() {
-        final Base64.Encoder encoder=Base64.getUrlEncoder();
+        final Base64.Encoder encoder = Base64.getUrlEncoder();
 
         assertEquals(
-                "QUIgRA==",
-                encoder.encodeToString(
-                        new byte[] {
-                                (byte)'A',
-                                (byte)'B',
-                                (byte)' ',
-                                (byte)'D'
-                        }
-                )
+            "QUIgRA==",
+            encoder.encodeToString(
+                new byte[]{
+                    (byte) 'A',
+                    (byte) 'B',
+                    (byte) ' ',
+                    (byte) 'D'
+                }
+            )
         );
     }
 }

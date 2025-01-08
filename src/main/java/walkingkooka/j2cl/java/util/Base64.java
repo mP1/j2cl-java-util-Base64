@@ -50,8 +50,8 @@ public final class Base64 implements PublicStaticHelper {
         Objects.requireNonNull(lineSeparator);
 
         return lineLength / 4 <= 0 ?
-                Encoder.RFC4648 :
-                getMimeEncoder0(lineLength, lineSeparator);
+            Encoder.RFC4648 :
+            getMimeEncoder0(lineLength, lineSeparator);
     }
 
     private static Base64.Encoder getMimeEncoder0(final int lineLength,
@@ -64,9 +64,9 @@ public final class Base64 implements PublicStaticHelper {
             at++;
         }
         return new Base64.Encoder(RFC4648_ALPHABET_CHARS,
-                lineLength / 4 * 4,
-                lineSeparator,
-                Base64EncoderPadding.WITH);
+            lineLength / 4 * 4,
+            lineSeparator,
+            Base64EncoderPadding.WITH);
     }
 
     public static Decoder getDecoder() {
@@ -291,8 +291,8 @@ public final class Base64 implements PublicStaticHelper {
 
         public Encoder withoutPadding() {
             return Base64EncoderPadding.WITHOUT == this.padding ?
-                    this :
-                    new Encoder(this.alphabet, this.maxLineLength, this.separator, Base64EncoderPadding.WITHOUT);
+                this :
+                new Encoder(this.alphabet, this.maxLineLength, this.separator, Base64EncoderPadding.WITHOUT);
         }
 
         @Override
