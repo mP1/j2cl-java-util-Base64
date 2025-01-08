@@ -37,16 +37,16 @@ public class JavaUtilBase64TestJ2cl {
         final String raw = "abc123";
 
         assertEquals("encodeToString " + CharSequences.quoteAndEscape(raw),
-                "YWJjMTIz",
-                Base64.getEncoder().encodeToString(raw.getBytes()));
+            "YWJjMTIz",
+            Base64.getEncoder().encodeToString(raw.getBytes()));
     }
 
     @Test
     public void testDecode() {
         final String text = "YWJjMTIz";
         assertArrayEquals("decode " + CharSequences.quoteAndEscape(text),
-                "abc123".getBytes(utf8()),
-                Base64.getDecoder().decode(text));
+            "abc123".getBytes(utf8()),
+            Base64.getDecoder().decode(text));
     }
 
     @Test

@@ -193,32 +193,32 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
 
     private void encodeAndCheck(final byte[] values) {
         this.encodeAndCheck(java.util.Base64.getEncoder(),
-                Base64.getEncoder(),
-                values);
+            Base64.getEncoder(),
+            values);
 
         this.encodeAndCheck(java.util.Base64.getEncoder().withoutPadding(),
-                Base64.getEncoder().withoutPadding(),
-                values);
+            Base64.getEncoder().withoutPadding(),
+            values);
 
         this.encodeAndCheck(java.util.Base64.getUrlEncoder(),
-                Base64.getUrlEncoder(),
-                values);
+            Base64.getUrlEncoder(),
+            values);
 
         this.encodeAndCheck(java.util.Base64.getUrlEncoder().withoutPadding(),
-                Base64.getUrlEncoder().withoutPadding(),
-                values);
+            Base64.getUrlEncoder().withoutPadding(),
+            values);
 
         this.encodeAndCheck(java.util.Base64.getMimeEncoder(),
-                Base64.getMimeEncoder(),
-                values);
+            Base64.getMimeEncoder(),
+            values);
     }
 
     private void encodeAndCheck(final java.util.Base64.Encoder jdk,
                                 final Base64.Encoder emul,
                                 final byte[] values) {
         assertArrayEquals(jdk.encode(values),
-                emul.encode(values),
-                () -> emul + " encode(byte[]) " + Arrays.toString(values));
+            emul.encode(values),
+            () -> emul + " encode(byte[]) " + Arrays.toString(values));
         {
             final byte[] encoded = new byte[values.length * 3 + 4];
             final byte[] encoded2 = new byte[values.length * 3 + 4];
@@ -227,19 +227,19 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
             emul.encode(values, encoded2);
 
             assertArrayEquals(encoded,
-                    encoded2,
-                    () -> emul + " encode(byte[], byte[]) " + Arrays.toString(values));
+                encoded2,
+                () -> emul + " encode(byte[], byte[]) " + Arrays.toString(values));
 
             assertArrayEquals(encoded,
-                    encoded2,
-                    () -> emul + " encode(byte[], byte[]) without padding " + Arrays.toString(values));
+                encoded2,
+                () -> emul + " encode(byte[], byte[]) without padding " + Arrays.toString(values));
 
         }
 
         this.checkEquals(
-                jdk.encodeToString(values),
-                emul.encodeToString(values),
-                () -> emul + " encodeToString " + Arrays.toString(values)
+            jdk.encodeToString(values),
+            emul.encodeToString(values),
+            () -> emul + " encodeToString " + Arrays.toString(values)
         );
     }
 
@@ -271,18 +271,18 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
     public void testDecodeInvalidPadFails() {
         final String raw = "abcd";
         final String encodedWithBadPad = Base64.getEncoder()
-                .encodeToString(raw.getBytes())
-                + "//";
+            .encodeToString(raw.getBytes())
+            + "//";
         final IllegalArgumentException thrown = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    Base64.getDecoder().decode(encodedWithBadPad);
-                }
+            IllegalArgumentException.class,
+            () -> {
+                Base64.getDecoder().decode(encodedWithBadPad);
+            }
         );
         this.checkEquals(
-                "Expected pad but got '/' at 8",
-                thrown.getMessage(),
-                () -> "decode " + CharSequences.quoteIfChars(encodedWithBadPad)
+            "Expected pad but got '/' at 8",
+            thrown.getMessage(),
+            () -> "decode " + CharSequences.quoteIfChars(encodedWithBadPad)
         );
     }
 
@@ -338,9 +338,9 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
 
     private void decodeAndCheck(final byte[] values) {
         this.decodeAndCheck(java.util.Base64.getEncoder(),
-                java.util.Base64.getDecoder(),
-                Base64.getDecoder(),
-                values);
+            java.util.Base64.getDecoder(),
+            Base64.getDecoder(),
+            values);
     }
 
     private void decodeAndCheck(final int length) {
@@ -349,18 +349,18 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
             Arrays.fill(values, (byte) value);
 
             this.decodeAndCheck(java.util.Base64.getEncoder(),
-                    java.util.Base64.getDecoder(),
-                    Base64.getDecoder(),
-                    values);
+                java.util.Base64.getDecoder(),
+                Base64.getDecoder(),
+                values);
 
             for (int i = 0; i < length; i++) {
                 values[i] = (byte) i;
             }
 
             this.decodeAndCheck(java.util.Base64.getEncoder(),
-                    java.util.Base64.getDecoder(),
-                    Base64.getDecoder(),
-                    values);
+                java.util.Base64.getDecoder(),
+                Base64.getDecoder(),
+                values);
         }
     }
 
@@ -416,9 +416,9 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
 
     private void decodeUrlAndCheck(final byte[] values) {
         this.decodeAndCheck(java.util.Base64.getUrlEncoder(),
-                java.util.Base64.getUrlDecoder(),
-                Base64.getUrlDecoder(),
-                values);
+            java.util.Base64.getUrlDecoder(),
+            Base64.getUrlDecoder(),
+            values);
     }
 
     private void decodeUrlAndCheck(final int length) {
@@ -503,9 +503,9 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
 
     private void decodeMimeAndCheck(final byte[] values) {
         this.decodeAndCheck(java.util.Base64.getMimeEncoder(),
-                java.util.Base64.getMimeDecoder(),
-                Base64.getMimeDecoder(),
-                values);
+            java.util.Base64.getMimeDecoder(),
+            Base64.getMimeDecoder(),
+            values);
     }
 
     private void decodeAndCheck(final java.util.Base64.Encoder encoder,
@@ -520,8 +520,8 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
                                 final Base64.Decoder emul,
                                 final byte[] values) {
         assertArrayEquals(jdk.decode(values),
-                emul.decode(values),
-                () -> "decode(byte[]) " + Arrays.toString(values));
+            emul.decode(values),
+            () -> "decode(byte[]) " + Arrays.toString(values));
 
         final byte[] decoded = new byte[values.length];
         final byte[] decoded2 = new byte[values.length];
@@ -530,37 +530,37 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
         emul.decode(values, decoded2);
 
         assertArrayEquals(decoded,
-                decoded2,
-                () -> "decode(byte[], byte[]) " + Arrays.toString(values));
+            decoded2,
+            () -> "decode(byte[], byte[]) " + Arrays.toString(values));
 
 
         final String string = new String(values);
         assertArrayEquals(jdk.decode(string),
-                emul.decode(string),
-                () -> emul + " decode(String) " + CharSequences.quoteAndEscape(string));
+            emul.decode(string),
+            () -> emul + " decode(String) " + CharSequences.quoteAndEscape(string));
     }
 
     @Test
     public void testRfc2045_EncodeAndDecodeRoundtrip() {
         this.encodeAndDecodeRoundtrip(
-                Encoder.RFC2045,
-                Decoder.RFC2045
+            Encoder.RFC2045,
+            Decoder.RFC2045
         );
     }
 
     @Test
     public void testRfc4648_EncodeAndDecodeRoundtrip() {
         this.encodeAndDecodeRoundtrip(
-                Encoder.RFC4648,
-                Decoder.RFC4648
+            Encoder.RFC4648,
+            Decoder.RFC4648
         );
     }
 
     @Test
     public void testRfc4648UrlSafe_EncodeAndDecodeRoundtrip() {
         this.encodeAndDecodeRoundtrip(
-                Encoder.RFC4648_URLSAFE,
-                Decoder.RFC4648_URLSAFE
+            Encoder.RFC4648_URLSAFE,
+            Decoder.RFC4648_URLSAFE
         );
     }
 
@@ -577,9 +577,9 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
             final String string = b.toString();
             final String encoded = encoder.encodeToString(string.getBytes(charset));
             this.checkEquals(
-                    string,
-                    new String(decoder.decode(encoded), charset),
-                    () -> "encode and decode roundtrip " + CharSequences.quoteIfChars(string)
+                string,
+                new String(decoder.decode(encoded), charset),
+                () -> "encode and decode roundtrip " + CharSequences.quoteIfChars(string)
             );
         }
     }
