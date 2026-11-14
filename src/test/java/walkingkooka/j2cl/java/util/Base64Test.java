@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToStringTesting<Base64> {
+public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToStringTesting {
 
     @Test
     public void testWithoutPaddingWithoutPadding() {
@@ -585,10 +585,6 @@ public final class Base64Test implements PublicStaticHelperTesting<Base64>, ToSt
     }
 
     // toString.........................................................................................................
-
-    @Override
-    public void testCheckToStringOverridden() {
-    }
 
     @Test
     public void testEncoderBasicToString() {
